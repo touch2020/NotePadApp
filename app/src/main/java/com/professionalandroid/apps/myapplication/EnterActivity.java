@@ -1,5 +1,6 @@
 package com.professionalandroid.apps.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,12 +32,20 @@ public class EnterActivity extends AppCompatActivity {
 
                     String substr = sdf.format(date);
 
-                    Toast.makeText(EnterActivity.this, str + ", " + substr , Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.putExtra("main", str);
+                    intent.putExtra("sub", substr);
+                    setResult(RESULT_OK,intent);
+
+                    finish();
+
+
 
                 }
             }
         });
         findViewById(R.id.buttoncan).setOnClickListener(new View.OnClickListener(){
+
             @Override
             public void onClick(View view) {
                 finish();
