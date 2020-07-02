@@ -8,11 +8,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class EnterActivity extends AppCompatActivity {
 
     EditText editText;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,7 @@ public class EnterActivity extends AppCompatActivity {
 
                     String substr = sdf.format(date);
 
+
                     Intent intent = new Intent();
                     intent.putExtra("main", str);
                     intent.putExtra("sub", substr);
@@ -44,12 +49,6 @@ public class EnterActivity extends AppCompatActivity {
                 }
             }
         });
-        findViewById(R.id.buttoncan).setOnClickListener(new View.OnClickListener(){
 
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 }

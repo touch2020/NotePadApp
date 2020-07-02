@@ -1,7 +1,10 @@
 package com.professionalandroid.apps.myapplication;
 
-public class Notepad {
+import java.io.Serializable;
 
+public class Notepad implements Serializable {
+
+    int seq;
     String maintext;
     String subtext;
     int isdone;
@@ -10,6 +13,21 @@ public class Notepad {
         this.maintext = maintext;
         this.subtext = subtext;
         this.isdone = isdone;
+    }
+
+    public Notepad(int seq, String maintext, String subtext, int isdone) {
+        this.seq = seq;
+        this.maintext = maintext;
+        this.subtext = subtext;
+        this.isdone = isdone;
+    }
+
+    public int getSeq() {
+        return seq;
+    }
+
+    public void setSeq(int seq) {
+        this.seq = seq;
     }
 
     public String getMaintext() {

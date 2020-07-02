@@ -8,6 +8,8 @@
     tools:context=".MainActivity"
     android:orientation="horizontal">
 
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,7 +20,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
     </ScrollView>
 
     <Button
@@ -26,6 +29,13 @@
         android:layout_width="49dp"
         android:layout_height="59dp"
         android:text="+" />
+
+    <Button
+        android:id="@+id/re"
+        android:layout_width="49dp"
+        android:layout_height="59dp"
+        android:text="RE" />
+    />
 
 
 </LinearLayout>

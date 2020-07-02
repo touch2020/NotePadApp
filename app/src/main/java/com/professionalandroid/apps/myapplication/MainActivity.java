@@ -2,6 +2,7 @@ package com.professionalandroid.apps.myapplication;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,16 +13,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Serializable {
+
+
 
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
@@ -34,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         notepadList = new ArrayList<>();
-        notepadList.add(new Notepad("예시", "예시", 0));
+
+
 
 
         recyclerView = findViewById(R.id.recyclerview);
@@ -50,13 +57,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
                 Intent intent = new Intent(MainActivity.this, EnterActivity.class);
                 startActivityForResult(intent, 0);
 
             }
 
         });
+        findViewById(R.id.re).setOnClickListener(new View.OnClickListener(){
+            Intent intent = new Intent(MainActivity.this,MainActivity.class);
+
+            @Override
+            public void onClick(View view) {
+
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
     }
+    //
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable("list", (Serializable) notepadList);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -70,12 +98,23 @@ public class MainActivity extends AppCompatActivity {
             recyclerAdapter.addItem(notepad);
             recyclerAdapter.notifyDataSetChanged();
 
+
+
         }
     }
 
-    class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemViewHolder>{
+    static class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemViewHolder>{
 
         private List<Notepad> listdata;
+
+        /*private AdapterView.OnItemClickListener mListener = null;
+
+        public interface OnItemClickListener{
+            void onItemClick(View view, int position);
+        }
+        public void setOnItemClickListener(AdapterView.OnItemClickListener listener){
+            this.mListener = listener;
+        }*/
 
         public RecyclerAdapter(List<Notepad> listdata){
             this.listdata= listdata;
@@ -92,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
             Notepad notepad = listdata.get(i);
 
+
+            itemViewHolder.maintext.setTag(notepad.getSeq());
             itemViewHolder.maintext.setText(notepad.getMaintext());
             itemViewHolder.subtext.setText(notepad.getSubtext());
 
@@ -111,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
             listdata.add(notepad);
         }
 
+        public void removeItem(int position) {
+            listdata.remove(position);
+        }
+
 
         class ItemViewHolder extends RecyclerView.ViewHolder{
             private TextView maintext;
@@ -123,8 +168,38 @@ public class MainActivity extends AppCompatActivity {
                 maintext = itemView.findViewById(R.id.item_maintext);
                 subtext = itemView.findViewById(R.id.item_subtext);
                 img = itemView.findViewById(R.id.item_image);
+
+                /*itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                    @Override
+                    public boolean onLongClick(View view) {
+
+                        int position = getAdapterPosition();
+                        int seq = (int)maintext.getTag();
+
+                        if(position != RecyclerView.NO_POSITION){
+                            dbHelper.deleteNotepad(seq);
+                            removeItem(position);
+                            notifyDataSetChanged();
+                        }
+                        return false;
+                    }
+                });*/
+
+                /*itemView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+
+                        }
+                    }
+
+                    }); */
+                }
+
             }
 
         }
+
     }
-}
